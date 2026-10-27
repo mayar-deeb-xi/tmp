@@ -13,7 +13,12 @@ const ImageDataUrlSchema = z
     (value) => Buffer.byteLength(value.slice(value.indexOf(',') + 1), 'base64') <= MAX_IMAGE_BYTES,
     `Image must be at most ${MAX_IMAGE_BYTES / 1024 / 1024} MB`,
   )
-  .describe('Base64 data URL, e.g. "data:image/png;base64,iVBORw0KGgo..."');
+  .meta({
+    description: 'Base64 data URL, e.g. "data:image/png;base64,iVBORw0KGgo..."',
+    // A 1x1 PNG; without an example, Swagger UI generates a long random string from the regex.
+    example:
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+  });
 
 /** Splits a data URL that already passed ImageDataUrlSchema. */
 export function parseImageDataUrl(dataUrl: string): { mimeType: string; base64: string } {
@@ -44,21 +49,24 @@ export const UpdateProductBodySchema = z
 export type CreateProductBody = z.infer<typeof CreateProductBodySchema>;
 export type UpdateProductBody = z.infer<typeof UpdateProductBodySchema>;
 
-export const ProductParamsSchema = z.object({ id: z.uuid() });
+export const ProductParamsSchema = z.object({ id: z.uuid().meta({ example: '1d6e9f4a-3b2c-4e5d-8f7a-9c0b1e2d3f4a' }) });
 
 export const ListProductsQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(100).default(20),
   q: z.string().trim().max(100).optional().describe('Case-insensitive search in name and description'),
-  ownerId: z.uuid().optional().describe("Only this user's products"),
+  ownerId: z
+    .uuid()
+    .optional()
+    .meta({ description: "Only this user's products", example: 'b3e1c7a2-5d4f-4c8e-9a1b-2f6d8e0c4a7b' }),
 });
 
 export type ListProductsQuery = z.infer<typeof ListProductsQuerySchema>;
 
 export const ProductSchema = z
   .object({
-    id: z.uuid(),
-    ownerId: z.uuid(),
+    id: z.uuid().meta({ example: '1d6e9f4a-3b2c-4e5d-8f7a-9c0b1e2d3f4a' }),
+    ownerId: z.uuid().meta({ example: 'b3e1c7a2-5d4f-4c8e-9a1b-2f6d8e0c4a7b' }),
     name: z.string(),
     description: z.string(),
     priceCents: z.number().int(),
