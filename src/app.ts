@@ -11,6 +11,7 @@ import {
 } from 'fastify-type-provider-zod';
 import authRoutes from './modules/auth/auth.routes.js';
 import healthRoutes from './modules/health/health.routes.js';
+import productsRoutes from './modules/products/products.routes.js';
 import usersRoutes from './modules/users/users.routes.js';
 import authPlugin from './plugins/auth.js';
 import dbPlugin from './plugins/db.js';
@@ -67,6 +68,7 @@ export async function buildApp({ databaseUrl, logger = true }: BuildAppOptions) 
   await app.register(healthRoutes);
   await app.register(authRoutes, { prefix: '/auth' });
   await app.register(usersRoutes, { prefix: '/users' });
+  await app.register(productsRoutes, { prefix: '/products' });
 
   return app;
 }
