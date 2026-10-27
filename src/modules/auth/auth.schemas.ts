@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import { UserSchema } from '../users/users.schemas.js';
 
-const email = z.email().max(254).toLowerCase();
+// Without an explicit example, Swagger UI generates one from the email regex, which comes out huge.
+const email = z.email().max(254).toLowerCase().meta({ example: 'ada@example.com' });
 
 export const RegisterBodySchema = z.object({
   email,
