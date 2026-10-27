@@ -1,3 +1,5 @@
+// Vercel only accepts an entrypoint whose source imports 'fastify' directly.
+import 'fastify';
 import { buildApp } from './build-app.js';
 import { env } from './config/env.js';
 
