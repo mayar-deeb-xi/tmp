@@ -82,8 +82,8 @@ the details are only in the server log.
 - `GET /products?page=1&pageSize=20&q=lamp&ownerId=<uuid>`: newest first, `pageSize` max 100, `q`
   matches name or description (case-insensitive). Responds with `{ items, page, pageSize, total, totalPages }`.
 - Prices are integer cents (`priceCents: 1999` = 19.99).
-- Send the image as a base64 data URL (`"data:image/png;base64,..."`; PNG, JPEG, WebP or GIF, max 2 MB;
-  request bodies over 4 MB get a 413). On `PATCH`, `image: null` removes it and leaving `image` out keeps it.
+- Send the image as a base64 data URL (`"data:image/png;base64,..."`; PNG, JPEG, WebP or GIF, max 1 MB;
+  request bodies over 2 MB get a 413). On `PATCH`, `image: null` removes it and leaving `image` out keeps it.
 - The image is stored base64 in the `products` table but never included in product JSON. Products carry
   `imageUrl` (e.g. `/products/<id>/image?v=...`) instead; prefix it with the API base URL and use it as `<img src>`.
 - Deleting a user deletes their products.

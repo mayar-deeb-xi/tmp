@@ -2,7 +2,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vites
 import type { ProductRow } from '../../db/schema.js';
 import { buildTestApp, testSession, testUser } from '../../test/fixtures.js';
 import { validateSessionToken } from '../auth/session.service.js';
-import { MAX_IMAGE_BYTES } from './products.schemas.js';
+import { MAX_IMAGE_BYTES, PRODUCT_BODY_LIMIT } from './products.schemas.js';
 import {
   createProduct,
   deleteProduct,
@@ -195,11 +195,11 @@ describe('POST /products', () => {
     const res = await app.inject({ method: 'POST', url: '/products', payload: { ...body, image }, headers: auth });
 
     expect(res.statusCode).toBe(400);
-    expect(res.json().issues).toEqual([{ path: 'image', message: 'Image must be at most 2 MB' }]);
+    expect(res.json().issues).toEqual([{ path: 'image', message: 'Image must be at most 1 MB' }]);
   });
 
   it('returns 413 for bodies over the request limit', async () => {
-    const image = `data:image/png;base64,${Buffer.alloc(4 * 1024 * 1024).toString('base64')}`;
+    const image = `data:image/png;base64,${'A'.repeat(PRODUCT_BODY_LIMIT)}`;
 
     const res = await app.inject({ method: 'POST', url: '/products', payload: { ...body, image }, headers: auth });
 

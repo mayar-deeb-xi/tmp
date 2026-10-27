@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-export const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
+export const MAX_IMAGE_BYTES = 1024 * 1024;
 // Base64 grows data by 4/3; leave headroom for the other JSON fields.
-export const PRODUCT_BODY_LIMIT = 4 * 1024 * 1024;
+export const PRODUCT_BODY_LIMIT = 2 * 1024 * 1024;
 
 const IMAGE_DATA_URL = /^data:(image\/(?:png|jpeg|webp|gif));base64,([A-Za-z0-9+/]+={0,2})$/;
 
