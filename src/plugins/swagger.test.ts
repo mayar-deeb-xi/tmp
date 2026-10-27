@@ -16,7 +16,7 @@ afterAll(async () => {
 describe('GET /docs/json', () => {
   it('generates the OpenAPI spec for every route', async () => {
     const res = await app.inject({ method: 'GET', url: '/docs/json' });
-
+// 
     expect(res.statusCode).toBe(200);
     expect(Object.keys(res.json().paths)).toEqual(
       expect.arrayContaining(['/auth/register', '/users/me', '/products/', '/products/{id}', '/products/{id}/image']),
