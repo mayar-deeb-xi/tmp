@@ -1,5 +1,5 @@
 import type { PublicUser, Session } from '../db/schema.js';
-import { buildApp } from '../app.js';
+import { buildApp } from '../build-app.js';
 
 export function buildTestApp() {
   return buildApp({ databaseUrl: 'postgres://unused', logger: false });

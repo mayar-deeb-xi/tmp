@@ -118,7 +118,7 @@ pnpm db:migrate
 
 ```
 src/
-  app.ts              buildApp(): plugins, error handler, routes
+  build-app.ts        buildApp(): plugins, error handler, routes
   server.ts           entry point + graceful shutdown
   config/env.ts       zod-validated environment
   db/                 schema, client, migrate and seed scripts
