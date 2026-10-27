@@ -1,2 +1,6 @@
 allowBuilds:
   esbuild: true
+
+overrides:
+  # content-disposition 3 is ESM-only; @fastify/static require()s it, which crashes on Vercel.
+  '@fastify/static>content-disposition': 2.0.1
