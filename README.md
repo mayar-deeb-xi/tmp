@@ -10,6 +10,7 @@ cp .env.example .env
 docker compose up -d db      # Postgres on localhost:5432
 pnpm install
 pnpm db:migrate
+pnpm db:seed                 # optional: demo users and products
 pnpm dev                     # http://localhost:3000, docs at /docs
 ```
 
@@ -98,6 +99,12 @@ Route tests (`src/**/*.test.ts`, Vitest) use `app.inject` with the db plugin and
 so they need no database. SQL in `*.service.ts` isn't covered by them. Test files and `src/test/` are
 left out of `pnpm build`.
 
+## Seed data
+
+`pnpm db:seed` creates two demo users, `ada@example.com` and `alan@example.com` (password `password123`),
+and 24 products split between them, most with a generated PNG image. Running it again resets those users
+and replaces their products; other data is left alone. It refuses to run when `NODE_ENV=production`.
+
 ## Database changes
 
 Edit `src/db/schema.ts`, then:
@@ -114,7 +121,7 @@ src/
   app.ts              buildApp(): plugins, error handler, routes
   server.ts           entry point + graceful shutdown
   config/env.ts       zod-validated environment
-  db/                 schema, client, migrate script
+  db/                 schema, client, migrate and seed scripts
   lib/                shared helpers (password hashing, DB errors, error schema)
   plugins/            db, auth (bearer token + sessions), swagger
   modules/<resource>/ *.routes.ts, *.schemas.ts, *.service.ts, *.routes.test.ts
